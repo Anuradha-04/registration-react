@@ -5,17 +5,60 @@ import { useState, useEffect, useRef } from "react";
 import Select from "react-select";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
+import makeAnimated from "react-select/animated";
 import { City, Country, State } from "country-state-city";
 import { type } from "@testing-library/user-event/dist/type";
 
 const Registration = () => {
+  const animatedComponents = makeAnimated();
 
   const formdata = new FormData();
   const notify = () => toast.success("Successfully Registered In!");
 
+  const [dob, setDob] = useState("");
+  const [age, setAge] = useState("");
+  const [files, setFiles] = useState([]);
+  const [files2, setFiles2] = useState([]);
+
+  const handleFileChange2 = (e) => {
+    const selectedFiles = Array.from(e.target.files);
+    if (selectedFiles.length > 2) {
+      alert("You can only upload a maximum of 2 files");
+      return;
+    }
+    setFiles2(selectedFiles);
+  };
+
   // login popup
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const popupRef = useRef(null);
+
+  const handleDOB = (e) => {
+    const selectedDate = new Date(e.target.value);
+    setDob(selectedDate);
+    calculateAge(selectedDate);
+  };
+  const calculateAge = (dob) => {
+    const today = new Date();
+    let age = today.getFullYear() - dob.getFullYear();
+    const monthDiff = today.getMonth() - dob.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+      age--;
+    }
+    setAge(age);
+  };
+  const handleAge = (e) => {
+    setAge(e.target.value);
+  };
+
+  const handleFileChange = (e) => {
+    const selectedFiles = Array.from(e.target.files);
+    if (selectedFiles.length > 5) {
+      alert("You can only upload a maximum of 5 files");
+      return;
+    }
+    setFiles(selectedFiles);
+  };
 
   const handleLoginClick = () => {
     setIsPopupOpen(true);
@@ -83,9 +126,7 @@ const Registration = () => {
         console.log(error);
       });
   };
-
   //ends here
-
 
   const Gender = [
     { value: "male", label: "male" },
@@ -169,7 +210,619 @@ const Registration = () => {
     { value: "Dark Brown skin", label: "Dark Brown skin" },
     { value: "Dark skin", label: "Dark skin" },
   ];
-
+  const _education = [
+    { value: "Doctorate", label: "Doctorate" },
+    { value: "Master", label: "Master" },
+    { value: "Bachelor/undergraduate", label: "Bachelor/undergraduate" },
+    { value: "Associate/diploma", label: "Associate/diploma" },
+    { value: "High school and below", label: "High school and below" },
+    {
+      value: "Doctor of Philosophy (PhD)",
+      label: "Doctor of Philosophy (PhD)",
+    },
+    { value: "Doctor of Education (EdD)", label: "Doctor of Education (EdD)" },
+    { value: "Doctor of Design (DDes)", label: "Doctor of Design (DDes)" },
+    { value: "Doctor of Fine Arts (DFA)", label: "Doctor of Fine Arts (DFA)" },
+    {
+      value: "Doctor of Nursing Science (DNS)",
+      label: "Doctor of Nursing Science (DNS)",
+    },
+    { value: "Doctor of Theology (ThD)", label: "Doctor of Theology (ThD)" },
+    {
+      value: "Doctor of Business Administration (DBA)",
+      label: "Doctor of Business Administration (DBA)",
+    },
+    {
+      value: "Doctor of Dental Surgery (DDS)",
+      label: "Doctor of Dental Surgery (DDS)",
+    },
+    {
+      value: "Doctor of Dental Medicine (DMD)",
+      label: "Doctor of Dental Medicine (DMD)",
+    },
+    {
+      value: "Doctor of Podiatric Medicine (DPM)",
+      label: "Doctor of Podiatric Medicine (DPM)",
+    },
+    {
+      value: "Doctor of Chiropractic (DC)",
+      label: "Doctor of Chiropractic (DC)",
+    },
+    {
+      value: "Doctor of Veterinary Medicine (DVM)",
+      label: "Doctor of Veterinary Medicine (DVM)",
+    },
+    {
+      value: "Doctor of Naturopathic Medicine (ND)",
+      label: "Doctor of Naturopathic Medicine (ND)",
+    },
+    { value: "Other", label: "Other" },
+    { value: "Master of Accountancy", label: "Master of Accountancy" },
+    { value: "Master of Advanced Study", label: "Master of Advanced Study" },
+    {
+      value: "Masters of Agricultural Economics",
+      label: "Masters of Agricultural Economics",
+    },
+    { value: "Master of Applied Finance", label: "Master of Applied Finance" },
+    { value: "Master of Applied Science", label: "Master of Applied Science" },
+    { value: "Master of Architecture", label: "Master of Architecture" },
+    { value: "Master of Arts", label: "Master of Arts" },
+    {
+      value: "Master of Arts in Liberal Studies",
+      label: "Master of Arts in Liberal Studies",
+    },
+    {
+      value: "Master of Arts in Special Education",
+      label: "Master of Arts in Special Education",
+    },
+    {
+      value: "Master of Arts in Teaching",
+      label: "Master of Arts in Teaching",
+    },
+    { value: "Master of Bioethics", label: "Master of Bioethics" },
+    {
+      value: "Master of Business Administration",
+      label: "Master of Business Administration",
+    },
+    {
+      value: "Master of Business, Entrepreneurship and Technology",
+      label: "Master of Business, Entrepreneurship and Technology",
+    },
+    { value: "Master of Business", label: "Master of Business" },
+    {
+      value: "Master of Business Engineering",
+      label: "Master of Business Engineering",
+    },
+    {
+      value: "Master of Business Informatics",
+      label: "Master of Business Informatics",
+    },
+    { value: "Master of Chemistry", label: "Master of Chemistry" },
+    {
+      value: "Master of Christian Education",
+      label: "Master of Christian Education",
+    },
+    { value: "Master of City Planning", label: "Master of City Planning" },
+    { value: "Master of Commerce", label: "Master of Commerce" },
+    {
+      value: "Master of Computational Finance",
+      label: "Master of Computational Finance",
+    },
+    {
+      value: "Master of Computer Applications",
+      label: "Master of Computer Applications",
+    },
+    { value: "Master of Counselling", label: "Master of Counselling" },
+    {
+      value: "Master of Criminal Justice",
+      label: "Master of Criminal Justice",
+    },
+    {
+      value: "Master of Creative Technologies",
+      label: "Master of Creative Technologies",
+    },
+    { value: "Master of Data Science", label: "Master of Data Science" },
+    { value: "Master of Defence Studies", label: "Master of Defence Studies" },
+    { value: "Master of Design", label: "Master of Design" },
+    {
+      value: "Masters of Development Economics",
+      label: "Masters of Development Economics",
+    },
+    { value: "Master of Divinity", label: "Master of Divinity" },
+    { value: "Master of Economics", label: "Master of Economics" },
+    { value: "Master of Education", label: "Master of Education" },
+    { value: "Master of Engineering", label: "Master of Engineering" },
+    {
+      value: "Master of Engineering Management",
+      label: "Master of Engineering Management",
+    },
+    { value: "Master of Applied Science", label: "Master of Applied Science" },
+    { value: "Master of Enterprise", label: "Master of Enterprise" },
+    { value: "Master of European Law", label: "Master of European Law" },
+    { value: "Master of Finance", label: "Master of Finance" },
+    {
+      value: "Master of Financial Economics",
+      label: "Master of Financial Economics",
+    },
+    {
+      value: "Master of Financial Engineering",
+      label: "Master of Financial Engineering",
+    },
+    {
+      value: "Master of Financial Mathematics",
+      label: "Master of Financial Mathematics",
+    },
+    { value: "Master of Fine Arts", label: "Master of Fine Arts" },
+    {
+      value: "Master of Health Administration",
+      label: "Master of Health Administration",
+    },
+    {
+      value: "Master of Health Economics",
+      label: "Master of Health Economics",
+    },
+    { value: "Master of Health Science", label: "Master of Health Science" },
+    { value: "Master of Humanities", label: "Master of Humanities" },
+    {
+      value: "Master of Industrial and Labor Relations",
+      label: "Master of Industrial and Labor Relations",
+    },
+    {
+      value: "Master of International Affairs",
+      label: "Master of International Affairs",
+    },
+    {
+      value: "Master of International Business",
+      label: "Master of International Business",
+    },
+    {
+      value: "Masters of International Economics",
+      label: "Masters of International Economics",
+    },
+    {
+      value: "Master of International Studies",
+      label: "Master of International Studies",
+    },
+    {
+      value: "Master of Information and Cybersecurity",
+      label: "Master of Information and Cybersecurity",
+    },
+    {
+      value: "Master of Information and Data Science",
+      label: "Master of Information and Data Science",
+    },
+    {
+      value: "Master of Information Management",
+      label: "Master of Information Management",
+    },
+    {
+      value: "Master of Information System Management",
+      label: "Master of Information System Management",
+    },
+    { value: "Master of Journalism", label: "Master of Journalism" },
+    { value: "Master of Jurisprudence", label: "Master of Jurisprudence" },
+    { value: "Master of Laws", label: "Master of Laws" },
+    {
+      value: "Master of Mass Communication",
+      label: "Master of Mass Communication",
+    },
+    { value: "Master of Studies in Law", label: "Master of Studies in Law" },
+    {
+      value: "Master of Landscape Architecture",
+      label: "Master of Landscape Architecture",
+    },
+    { value: "Master of Letters", label: "Master of Letters" },
+    { value: "Master of Liberal Arts", label: "Master of Liberal Arts" },
+    {
+      value: "Master of Library and Information Science",
+      label: "Master of Library and Information Science",
+    },
+    { value: "Master of Management", label: "Master of Management" },
+    {
+      value: "Master of Management of Innovation",
+      label: "Master of Management of Innovation",
+    },
+    { value: "Master of Marketing", label: "Master of Marketing" },
+    {
+      value: "Master of Mathematical Finance",
+      label: "Master of Mathematical Finance",
+    },
+    { value: "Master of Mathematics", label: "Master of Mathematics" },
+    { value: "Master of Medical Science", label: "Master of Medical Science" },
+    { value: "Master of Medicine", label: "Master of Medicine" },
+    {
+      value: "Masters of Military Art and Science",
+      label: "Masters of Military Art and Science",
+    },
+    {
+      value: "Master of Military Operational Art and Science",
+      label: "Master of Military Operational Art and Science",
+    },
+    { value: "Master of Ministry", label: "Master of Ministry" },
+    { value: "Master of Music", label: "Master of Music" },
+    { value: "Master of Music Education", label: "Master of Music Education" },
+    {
+      value: "Master of Occupational Behaviour and Development",
+      label: "Master of Occupational Behaviour and Development",
+    },
+    {
+      value: "Master of Occupational Therapy",
+      label: "Master of Occupational Therapy",
+    },
+    { value: "Master of Pharmacy", label: "Master of Pharmacy" },
+    { value: "Master of Philosophy", label: "Master of Philosophy" },
+    {
+      value: "Master of Physician Assistant Studies",
+      label: "Master of Physician Assistant Studies",
+    },
+    { value: "Master of Physics", label: "Master of Physics" },
+    {
+      value: "Master of Political Science",
+      label: "Master of Political Science",
+    },
+    {
+      value: "Master of Professional Studies",
+      label: "Master of Professional Studies",
+    },
+    { value: "Master of Psychology", label: "Master of Psychology" },
+    {
+      value: "Master of Public Administration",
+      label: "Master of Public Administration",
+    },
+    { value: "Master of Public Affairs", label: "Master of Public Affairs" },
+    { value: "Master of Public Health", label: "Master of Public Health" },
+    {
+      value: "Master of Public Management",
+      label: "Master of Public Management",
+    },
+    { value: "Master of Public Policy", label: "Master of Public Policy" },
+    {
+      value: "Master of Public Relations",
+      label: "Master of Public Relations",
+    },
+    { value: "Master of Public Service", label: "Master of Public Service" },
+    {
+      value: "Master of Quantitative Finance",
+      label: "Master of Quantitative Finance",
+    },
+    {
+      value: "Master of Rabbinic Studies",
+      label: "Master of Rabbinic Studies",
+    },
+    {
+      value: "Master of Real Estate Development",
+      label: "Master of Real Estate Development",
+    },
+    {
+      value: "Master of Religious Education",
+      label: "Master of Religious Education",
+    },
+    { value: "Master of Research", label: "Master of Research" },
+    { value: "Master of Sacred Music", label: "Master of Sacred Music" },
+    { value: "Master of Sacred Theology", label: "Master of Sacred Theology" },
+    { value: "Master of Science", label: "Master of Science" },
+    {
+      value: "Master of Science in Administration",
+      label: "Master of Science in Administration",
+    },
+    {
+      value: "Master of Science in Archaeology",
+      label: "Master of Science in Archaeology",
+    },
+    {
+      value: "Master of Science in Biblical Archaeology",
+      label: "Master of Science in Biblical Archaeology",
+    },
+    {
+      value: "Master of Science in Bioinformatics",
+      label: "Master of Science in Bioinformatics",
+    },
+    {
+      value: "Master of Science in Computer Science",
+      label: "Master of Science in Computer Science",
+    },
+    {
+      value: "Master of Science in Counselling",
+      label: "Master of Science in Counselling",
+    },
+    {
+      value: "Master of Science in Cyber Security",
+      label: "Master of Science in Cyber Security",
+    },
+    {
+      value: "Master of Science in Engineering",
+      label: "Master of Science in Engineering",
+    },
+    {
+      value: "Master of Science in Development Administration",
+      label: "Master of Science in Development Administration",
+    },
+    {
+      value: "Master of Science in Finance",
+      label: "Master of Science in Finance",
+    },
+    {
+      value: "Master of Science in Health Informatics",
+      label: "Master of Science in Health Informatics",
+    },
+    {
+      value: "Master of Science in Human Resource Development",
+      label: "Master of Science in Human Resource Development",
+    },
+    {
+      value: "Master of Science in Information Assurance",
+      label: "Master of Science in Information Assurance",
+    },
+    {
+      value: "Master of Science in Information Systems",
+      label: "Master of Science in Information Systems",
+    },
+    {
+      value: "Master of Science in Information Technology",
+      label: "Master of Science in Information Technology",
+    },
+    {
+      value: "Master of Science in Leadership",
+      label: "Master of Science in Leadership",
+    },
+    {
+      value: "Master of Science in Management",
+      label: "Master of Science in Management",
+    },
+    {
+      value: "Master of Science in Nursing",
+      label: "Master of Science in Nursing",
+    },
+    {
+      value: "Master of Science in Project Management",
+      label: "Master of Science in Project Management",
+    },
+    {
+      value: "Master of Science in Supply Chain Management",
+      label: "Master of Science in Supply Chain Management",
+    },
+    {
+      value: "Master of Science in Teaching",
+      label: "Master of Science in Teaching",
+    },
+    {
+      value: "Master of Science in Taxation",
+      label: "Master of Science in Taxation",
+    },
+    {
+      value: "Master of Science in Yoga Therapy",
+      label: "Master of Science in Yoga Therapy",
+    },
+    { value: "Master of Social Science", label: "Master of Social Science" },
+    { value: "Master of Social Work", label: "Master of Social Work" },
+    {
+      value: "Master of Strategic Studies",
+      label: "Master of Strategic Studies",
+    },
+    { value: "Master of Studies", label: "Master of Studies" },
+    { value: "Master of Surgery", label: "Master of Surgery" },
+    { value: "Master of Talmudic Law", label: "Master of Talmudic Law" },
+    { value: "Master of Taxation", label: "Master of Taxation" },
+    {
+      value: "Master of Theological Studies",
+      label: "Master of Theological Studies",
+    },
+    { value: "Master of Technology", label: "Master of Technology" },
+    { value: "Master of Theology", label: "Master of Theology" },
+    { value: "Master of Urban Planning", label: "Master of Urban Planning" },
+    {
+      value: "Master of Veterinary Science",
+      label: "Master of Veterinary Science",
+    },
+    { value: "Other", label: "Other" },
+    {
+      value: "Bachelor of Business Administration (BBA)",
+      label: "Bachelor of Business Administration (BBA)",
+    },
+    {
+      value: "Bachelor of Management Science (BMS)",
+      label: "Bachelor of Management Science (BMS)",
+    },
+    {
+      value: "Bachelor of Fine Arts (BFA)",
+      label: "Bachelor of Fine Arts (BFA)",
+    },
+    {
+      value: "Bachelor of Event Management (BEM)",
+      label: "Bachelor of Event Management (BEM)",
+    },
+    {
+      value: "Integrated Law Course (BA + LL.B)",
+      label: "Integrated Law Course (BA + LL.B)",
+    },
+    {
+      value: "Bachelor of Journalism and Mass Communication (BJMC)",
+      label: "Bachelor of Journalism and Mass Communication (BJMC)",
+    },
+    {
+      value: "Bachelor of Fashion Designing (BFD)",
+      label: "Bachelor of Fashion Designing (BFD)",
+    },
+    {
+      value: "Bachelor of Social Work (BSW)",
+      label: "Bachelor of Social Work (BSW)",
+    },
+    {
+      value: "Bachelor of Business Studies (BBS)",
+      label: "Bachelor of Business Studies (BBS)",
+    },
+    {
+      value: "Bachelor of Travel and Tourism Management (BTTM)",
+      label: "Bachelor of Travel and Tourism Management (BTTM)",
+    },
+    { value: "Aviation Courses", label: "Aviation Courses" },
+    {
+      value: "Bachelor of Science in Interior Design (B.Sc Interior Design)",
+      label: "Bachelor of Science in Interior Design (B.Sc Interior Design)",
+    },
+    {
+      value:
+        "Bachelor of Science in Hospitality and Hotel Administration (B.Sc Hospitality and Hotel Administration)",
+      label:
+        "Bachelor of Science in Hospitality and Hotel Administration (B.Sc Hospitality and Hotel Administration)",
+    },
+    {
+      value: "Bachelor of Design (B. Design)",
+      label: "Bachelor of Design (B. Design)",
+    },
+    {
+      value: "Bachelor of Performing Arts",
+      label: "Bachelor of Performing Arts",
+    },
+    {
+      value: "Bachelor of Arts in History (BA in History)",
+      label: "Bachelor of Arts in History (BA in History)",
+    },
+    {
+      value: "Bachelor of Technology (BE/B.Tech)",
+      label: "Bachelor of Technology (BE/B.Tech)",
+    },
+    {
+      value: "Bachelor of Architecture (B.Arch)",
+      label: "Bachelor of Architecture (B.Arch)",
+    },
+    {
+      value: "Bachelor of Computer Applications (BCA)",
+      label: "Bachelor of Computer Applications (BCA)",
+    },
+    {
+      value:
+        "Bachelor of Science in Information Technology (B.Sc Information Technology)",
+      label:
+        "Bachelor of Science in Information Technology (B.Sc Information Technology)",
+    },
+    {
+      value: "Bachelor of Science in Nursing (B.Sc Nursing)",
+      label: "Bachelor of Science in Nursing (B.Sc Nursing)",
+    },
+    {
+      value: "Bachelor of Pharmacy (BPharma)",
+      label: "Bachelor of Pharmacy (BPharma)",
+    },
+    {
+      value: "Bachelor of Dental Surgery (BDS)",
+      label: "Bachelor of Dental Surgery (BDS)",
+    },
+    {
+      value: "Animation, Graphics and Multimedia",
+      label: "Animation, Graphics and Multimedia",
+    },
+    {
+      value:
+        "Bachelor of Science in Nutrition & Dietetics (B.Sc Nutrition & Dietetics)",
+      label:
+        "Bachelor of Science in Nutrition & Dietetics (B.Sc Nutrition & Dietetics)",
+    },
+    {
+      value: "Bachelor of Physiotherapy (BPT)",
+      label: "Bachelor of Physiotherapy (BPT)",
+    },
+    {
+      value: "Bachelor of Science in Applied Geology (B.Sc Applied Geology)",
+      label: "Bachelor of Science in Applied Geology (B.Sc Applied Geology)",
+    },
+    {
+      value:
+        "Bachelor of Arts/Bachelor of Science in Liberal Arts (BA/B.Sc Liberal Arts)",
+      label:
+        "Bachelor of Arts/Bachelor of Science in Liberal Arts (BA/B.Sc Liberal Arts)",
+    },
+    {
+      value: "Bachelor of Science in Physics (B.Sc Physics)",
+      label: "Bachelor of Science in Physics (B.Sc Physics)",
+    },
+    {
+      value: "Bachelor of Science in Chemistry (B.Sc Chemistry)",
+      label: "Bachelor of Science in Chemistry (B.Sc Chemistry)",
+    },
+    {
+      value: "Bachelor of Science in Mathematics (B.Sc Mathematics)",
+      label: "Bachelor of Science in Mathematics (B.Sc Mathematics)",
+    },
+    { value: "Aeronautical Engineering", label: "Aeronautical Engineering" },
+    { value: "Automobile Engineering", label: "Automobile Engineering" },
+    { value: "Civil Engineering", label: "Civil Engineering" },
+    {
+      value: "Computer Science and Engineering",
+      label: "Computer Science and Engineering",
+    },
+    { value: "Biotechnology Engineering", label: "Biotechnology Engineering" },
+    {
+      value: "Electrical and Electronics Engineering",
+      label: "Electrical and Electronics Engineering",
+    },
+    {
+      value: "Electronics and Communication Engineering",
+      label: "Electronics and Communication Engineering",
+    },
+    { value: "Automation and Robotics", label: "Automation and Robotics" },
+    { value: "Petroleum Engineering", label: "Petroleum Engineering" },
+    {
+      value: "Instrumentation Engineering",
+      label: "Instrumentation Engineering",
+    },
+    { value: "Ceramic Engineering", label: "Ceramic Engineering" },
+    { value: "Chemical Engineering", label: "Chemical Engineering" },
+    { value: "Structural Engineering", label: "Structural Engineering" },
+    {
+      value: "Transportation Engineering",
+      label: "Transportation Engineering",
+    },
+    { value: "Construction Engineering", label: "Construction Engineering" },
+    { value: "Power Engineering", label: "Power Engineering" },
+    { value: "Robotics Engineering", label: "Robotics Engineering" },
+    { value: "Textile Engineering", label: "Textile Engineering" },
+    {
+      value: "Smart Manufacturing & Automation",
+      label: "Smart Manufacturing & Automation",
+    },
+    {
+      value: "Bachelor of Commerce (B.Com)",
+      label: "Bachelor of Commerce (B.Com)",
+    },
+    {
+      value: "Bachelor of Commerce (Honours) (B.Com (Hons.))",
+      label: "Bachelor of Commerce (Honours) (B.Com (Hons.))",
+    },
+    {
+      value:
+        "Bachelor of Arts (Honours) in Economics (BA (Hons.) in Economics)",
+      label:
+        "Bachelor of Arts (Honours) in Economics (BA (Hons.) in Economics)",
+    },
+    {
+      value: "Integrated Law Program (B.Com LL.B)",
+      label: "Integrated Law Program (B.Com LL.B)",
+    },
+    {
+      value: "Integrated Law Program (BBA LL.B)",
+      label: "Integrated Law Program (BBA LL.B)",
+    },
+    {
+      value: "Chartered Accountancy (CA)",
+      label: "Chartered Accountancy (CA)",
+    },
+    { value: "Company Secretary (CS)", label: "Company Secretary (CS)" },
+    {
+      value:
+        "Bachelor of Design in Accessory Design, Fashion Design, Ceramic Design, Leather Design, Graphic Design, Industrial Design, Jewellery Design",
+      label:
+        "Bachelor of Design in Accessory Design, Fashion Design, Ceramic Design, Leather Design, Graphic Design, Industrial Design, Jewellery Design",
+    },
+    {
+      value: "Bachelor in Foreign Language",
+      label: "Bachelor in Foreign Language",
+    },
+    { value: "Diploma Courses", label: "Diploma Courses" },
+    { value: "Advanced Diploma Courses", label: "Advanced Diploma Courses" },
+    { value: "Certificate Courses", label: "Certificate Courses" },
+    { value: "Other", label: "Other" },
+  ];
 
   const Family_Type = [
     { value: "Nuclear", label: "Nuclear" },
@@ -200,9 +853,6 @@ const Registration = () => {
     { value: "In certain cases", label: "In certain cases" },
     { value: "Registered partnership", label: "Registered partnership" },
   ];
-
-
-
 
   const Heights = [
     { value: "4 '", label: "4 '" },
@@ -425,7 +1075,6 @@ const Registration = () => {
     { value: "200 kg", label: "200 kg" },
   ];
 
-
   const Income = [
     { value: "1 - 2 L", label: "1 - 2 L" },
     { value: "2 - 3 L", label: "2 - 3 L" },
@@ -494,15 +1143,13 @@ const Registration = () => {
     { value: "Non Working", label: "Non Working" },
   ];
 
-
   const Community = [
     { value: "Digambara", label: "Digambara" },
     { value: "Svetambara", label: "Svetambara" },
-  /*   { value: "Agarwal", label: "Agarval" },
+    /*   { value: "Agarwal", label: "Agarval" },
     { value: "Khandelwal", label: "Khandelwal" },
- */  ];
-
-
+ */
+  ];
 
   const [reference, SetReference] = useState("");
   const [whatsapp, SetWhatsapp] = useState("");
@@ -511,8 +1158,8 @@ const Registration = () => {
   const [password2, SetPassword2] = useState("");
   const [gender, SetGender] = useState("");
   const [name, Setname] = useState("");
-  const [dob, SetDOB] = useState("");
-  const [age, SetAge] = useState("");
+  // const [dob, SetDOB] = useState("");
+  // const [age, SetAge] = useState("");
   const [birthplace, SetBirthplace] = useState("");
   const [birthTime, SetBirthTime] = useState("");
   const [height, SetHeight] = useState("");
@@ -583,8 +1230,6 @@ const Registration = () => {
     SetReference(value);
   };
 
-
-
   const handleWhatsappNo = (e) => {
     const value = e?.target.value;
     if (value !== null);
@@ -621,17 +1266,17 @@ const Registration = () => {
     Setname(value);
   };
 
-  const handleDOB = (e) => {
-    const value = e?.target.value;
-    if (value != null);
-    SetDOB(value); //data format is yyyy-MM-dd
-  };
+  // const handleDOB = (e) => {
+  //   const value = e?.target.value;
+  //   if (value != null);
+  //   SetDOB(value); //data format is yyyy-MM-dd
+  // };
 
-  const handleAge = (e) => {
-    const value = e?.target.value;
-    if (value !== null);
-    SetAge(value);
-  };
+  // const handleAge = (e) => {
+  //   const value = e?.target.value;
+  //   if (value !== null);
+  //   SetAge(value);
+  // };
 
   const handleBirthplace = (e) => {
     const value = e?.target.value;
@@ -664,7 +1309,7 @@ const Registration = () => {
   };
 
   const handleEducation = (e) => {
-    const value = e?.target.value;
+    const value = e.value;
     if (value !== null);
     SetEducation(value);
   };
@@ -686,7 +1331,6 @@ const Registration = () => {
     if (value !== null);
     SetReligion(value);
   };
-
 
   const handleCommunity = (e) => {
     const value = e.value;
@@ -808,7 +1452,7 @@ const Registration = () => {
   };
 
   const handlepartner_Occupation = (e) => {
-    const value = e?.target.value;
+    const value = e.value;
     if (value !== null);
     Setpartner_occupation(value);
   };
@@ -891,26 +1535,9 @@ const Registration = () => {
     SetAgeTo(value);
   };
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      SetPhoto(file);
-    } else {
-      SetPhoto(null);
-    }
-  };
-  const handleFileChange2 = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      SetID(file);
-    } else {
-      SetID(null);
-    }
-  };
-
   const buildFormData = (data) => {
     const formData = new FormData();
-    data.forEach(item => {
+    data.forEach((item) => {
       formData.append(item.key, item.value);
     });
     return formData;
@@ -921,8 +1548,7 @@ const Registration = () => {
 
     if (!reference.trim()) {
       toast.error("Reference is required");
-    }
-    else if (!whatsapp.trim()) {
+    } else if (!whatsapp.trim()) {
       toast.error("WhatsApp number is required");
     } else if (!email.trim()) {
       toast.error("Email is required");
@@ -1002,13 +1628,11 @@ const Registration = () => {
       toast.error("Manglik status is required");
     } else if (!phone.trim()) {
       toast.error("Phone number is required");
-    }
-    // else if (!photo) {
-    //   toast.error("Photo is required");
-    // } else if (!id) {
-    //   toast.error("ID is required");
-    // }
-    else if (!partner_income.trim()) {
+    } else if (!photo) {
+      toast.error("Photo is required");
+    } else if (!id) {
+      toast.error("ID is required");
+    } else if (!partner_income.trim()) {
       toast.error("Partner's income is required");
     } else if (!selectedCountry.name.trim()) {
       toast.error("Partner's country is required");
@@ -1045,9 +1669,8 @@ const Registration = () => {
     }
   };
 
-
   const registerEvent = async () => {
-    formdata.append("profile_created_by_type", 'self');
+    formdata.append("profile_created_by_type", "self");
     formdata.append("refrence_by", reference);
     formdata.append("whatsapp_no", whatsapp);
     formdata.append("email", email);
@@ -1070,13 +1693,13 @@ const Registration = () => {
     formdata.append("marital_status", maritalStatus);
     formdata.append("physical_status", physical);
     formdata.append("blood_group", bloodGroup);
-    for ( let i = 0;i<5;i++){
-      formdata.append(`photo[${i}]`, i);
+    for (let i = 0; i < 5; i++) {
+      formdata.append(`partner_hobbies[${i}]`, i);
     }
     formdata.append("candidate_income", "12k");
     formdata.append("candidates_address", "Lorem Ipsum address");
     formdata.append("terms_and_conditions", "1");
-    formdata.append("if_nri", 'No');
+    formdata.append("if_nri", "No");
     formdata.append("candidate_visa", "Lorem Ipsum text");
     formdata.append("address_nri_citizen", "Lorem Ipsum text");
     formdata.append("father_name", "Johan Sharma");
@@ -1092,7 +1715,10 @@ const Registration = () => {
     formdata.append("brother", "1");
     formdata.append("family_community", "1");
     formdata.append("sister", "1");
-    formdata.append("other_family_details", "Lorem Ipsum has been the industry's standard dummy text");
+    formdata.append(
+      "other_family_details",
+      "Lorem Ipsum has been the industry's standard dummy text"
+    );
     formdata.append("calling_no", "7865432123");
     formdata.append("are_you_manglik", "no");
     formdata.append("partner_age_group_from", "22");
@@ -1109,32 +1735,43 @@ const Registration = () => {
     formdata.append("partner_hobbies[]", "3");
     formdata.append("partner_marital_status", "Single");
     formdata.append("astrology_matching", "yes");
-    formdata.append("expectation_partner_details", "Lorem Ipsum textLorem Ipsum text");
+    formdata.append(
+      "expectation_partner_details",
+      "Lorem Ipsum textLorem Ipsum text"
+    );
     formdata.append("photo[]", photo);
     formdata.append("id_proof", id);
     // apis calling
     let config = {
-      method: 'POST',
-      responseType: 'json',
-      url: 'https://api.shreevct.com/api/register',
+      method: "POST",
+      responseType: "json",
+      url: "https://api.shreevct.com/api/register",
       headers: {
-       'Content-Type': 'multipart/form-data', 
+        "Content-Type": "multipart/form-data",
       },
       data: formdata,
     };
 
-    axios.request(config)
+    axios
+      .request(config)
       .then((response) => response.json())
       .then((result) => {
         if (result.data?.status === false) {
-          console.log('registerEvent__________>', JSON.stringify(result));
+          console.log("registerEvent__________>", JSON.stringify(result));
         } else {
-          console.log('registerError__________>', JSON.stringify(result));
+          console.log("registerError__________>", JSON.stringify(result));
         }
-      }).catch((error) => {
-        toast.error(error?.response?.data?.message + ' \n ' + error?.response?.data?.error_message)
-        console.log('errorr___________>', JSON.stringify(error?.response?.data))
-
+      })
+      .catch((error) => {
+        toast.error(
+          error?.response?.data?.message +
+            " \n " +
+            error?.response?.data?.error_message
+        );
+        console.log(
+          "errorr___________>",
+          JSON.stringify(error?.response?.data)
+        );
       });
   };
 
@@ -1218,7 +1855,6 @@ const Registration = () => {
                       id="radio1"
                       type="radio"
                       name="radiocheck"
-
                       style={{ appearance: "none" }}
                       defaultChecked=""
                       value="Digambara"
@@ -1525,6 +2161,18 @@ const Registration = () => {
                 className="w-[90%] ps:w-[100%]"
               >
                 <div className="bg-white  rounded pt-8  flex flex-col ">
+                  <div className=" md:flex mb-3">
+                    <div className="md:w-1/2 ps:px-0 px-3  md:mb-0">
+                      <label
+                        className=" tracking-wide text-gray-600 text-base font-bold "
+                        htmlFor="company"
+                      >
+                        User Basic Details -
+                      </label>
+
+                      <div></div>
+                    </div>
+                  </div>
                   <div className=" md:flex mb-6">
                     <div className="w-full ps:px-0 px-3 mb-6 md:mb-0">
                       <label
@@ -1532,16 +2180,17 @@ const Registration = () => {
                         htmlFor="company"
                       >
                         Reference By<span className="text-red-500 ">*</span>
-                      </label><Select
-                        options={Reference} required
+                      </label>
+                      <Select
+                        options={Reference}
+                        required
                         className="text-gray-600 border border-gray-400 mt-2"
-                        onChange={(e) => handleReference(e)} placeholder=""
+                        onChange={(e) => handleReference(e)}
+                        placeholder=""
                         id="company"
                         type="text"
                       />
-
                     </div>
-
                   </div>
                   <div className=" md:flex mb-6">
                     <div className="md:w-1/2 ps:px-0 px-3 mb-6 md:mb-0">
@@ -1558,7 +2207,6 @@ const Registration = () => {
                         id="company"
                         type="text"
                       />
-
                     </div>
                     <div className="md:w-1/2 ps:px-0 px-3 mb-6 md:mb-0">
                       <label
@@ -1617,7 +2265,7 @@ const Registration = () => {
                         className=" tracking-wide text-gray-600 text-base font-bold "
                         htmlFor="company"
                       >
-                        Personal Details -
+                        User Personal Details -
                       </label>
 
                       <div></div>
@@ -1634,6 +2282,7 @@ const Registration = () => {
                       <Select
                         onChange={(e) => handleGender(e)}
                         options={Gender}
+                        placeholder=" "
                         className="text-gray-600 border border-gray-400 mt-2"
                       />
                       <div></div>
@@ -1656,7 +2305,7 @@ const Registration = () => {
                     </div>
                   </div>
                   <div className=" md:flex mb-6">
-                    <div className="md:w-1/2 ps:px-0 px-3 mb-6 md:mb-0">
+                    <div className="md:w-1/4 ps:w-full ps:px-0 px-3 mb-6 md:mb-0">
                       <label
                         className=" tracking-wide text-gray-600 text-sm font-bold mb-2"
                         htmlFor="company"
@@ -1676,18 +2325,18 @@ const Registration = () => {
 
                       <div className="relative max-w-sm">
                         <input
-                          datepicker=""
                           placeholder="Select date"
                           type="date"
-                          selected={dob}
-                          onChange={(date) => handleDOB(date)}
-                          className=" border-[3px] ps:w-full w-[500px] border-gray-300 text-gray-700 text-sm rounded mt-2 focus:ring-pink-500 focus:border-pink-500 block  ps-10 p-[6px]  "
+                          value={dob ? dob.toISOString().substr(0, 10) : ""}
+                          onChange={handleDOB}
+                          className="border-[3px] ps:w-full w-[250px] border-gray-300 text-gray-700 text-sm rounded mt-2 focus:ring-pink-500 focus:border-pink-500 block ps-10 p-[6px]"
                         />
                       </div>
 
                       <div></div>
                     </div>
-                    <div className="md:w-1/2 ps:px-0 px-3 mb-6 md:mb-0">
+
+                    <div className="md:w-1/4 ps:px-0 ps:w-full px-3 mb-6 md:mb-0">
                       <label
                         className=" tracking-wide text-gray-600 text-sm font-bold mb-2 mt-2"
                         htmlFor="company"
@@ -1696,17 +2345,17 @@ const Registration = () => {
                       </label>
                       <input
                         required
-                        onChange={(e) => handleAge(e)}
-                        className="w-full  text-gray-600 border border-gray-400 rounded py-[5.5px] px-4 mb-3 mt-2"
-                        id="company"
+                        value={age}
+                        disabled
+                        onChange={handleAge}
+                        className="w-full text-gray-600 border border-gray-400 rounded py-[5.5px] px-4 mb-3 mt-2"
+                        id="age"
                         type="text"
+                        readOnly
                       />
                       <div></div>
                     </div>
-                  </div>
-
-                  <div className=" md:flex mb-6">
-                    <div className="md:w-1/2 ps:px-0 px-3 mb-6 md:mb-0">
+                    <div className="md:w-1/4 ps:w-full ps:px-0 px-3 mb-6 md:mb-0">
                       <label
                         className=" tracking-wide text-gray-600 text-sm font-bold mb-2 mt-2"
                         htmlFor="company"
@@ -1722,7 +2371,7 @@ const Registration = () => {
                       />
                       <div></div>
                     </div>
-                    <div className="md:w-1/2 ps:px-0 px-3 mb-6 md:mb-0">
+                    <div className="md:w-1/4 ps:w-full ps:px-0 px-3 mb-6 md:mb-0">
                       <label
                         className=" tracking-wide text-gray-600 text-sm font-bold mb-2"
                         htmlFor="company"
@@ -1742,8 +2391,9 @@ const Registration = () => {
                       <div></div>
                     </div>
                   </div>
+
                   <div className=" md:flex mb-6">
-                    <div className="md:w-1/2 ps:px-0 px-3 mb-6 md:mb-0">
+                    <div className="md:w-1/4 ps:w-full ps:px-0 px-3 mb-6 md:mb-0">
                       <label
                         className=" tracking-wide text-gray-600 text-sm font-bold mb-2 mt-2"
                         htmlFor="company"
@@ -1765,7 +2415,7 @@ const Registration = () => {
                       /> */}
                       <div></div>
                     </div>
-                    <div className="md:w-1/2 ps:px-0 px-3 mb-6 md:mb-0">
+                    <div className="md:w-1/4 ps:w-full ps:px-0 px-3 mb-6 md:mb-0">
                       <label
                         className=" tracking-wide text-gray-600 text-sm font-bold mb-2"
                         htmlFor="company"
@@ -1787,9 +2437,7 @@ const Registration = () => {
                       /> */}
                       <div></div>
                     </div>
-                  </div>
-                  <div className=" md:flex mb-6">
-                    <div className="md:w-1/2 ps:px-0 px-3 mb-6 md:mb-0">
+                    <div className="md:w-1/4 ps:w-full ps:px-0 px-3 mb-6 md:mb-0">
                       <label
                         className=" tracking-wide text-gray-600 text-sm font-bold mb-2"
                         htmlFor="company"
@@ -1812,25 +2460,47 @@ const Registration = () => {
                       /> */}
                       <div></div>
                     </div>
-                    <div className="md:w-1/2 ps:px-0 px-3 mb-6 md:mb-0">
+                    <div className="md:w-1/4 ps:w-full ps:px-0 px-3 mb-6 md:mb-0">
+                      <label
+                        className=" tracking-wide text-gray-600 text-sm font-bold mb-2"
+                        htmlFor="company"
+                      >
+                        Blood Group<span className="text-red-500 ">*</span>
+                      </label>
+
+                      <Select
+                        onChange={(e) => handleBloodGroup(e)}
+                        // defaultValue={selectedOption}
+                        // onChange={setSelectedOption}
+                        options={optionstwo}
+                        className="text-gray-600 border border-gray-400 mt-2"
+                      />
+                      <div></div>
+                    </div>
+                  </div>
+                  <div className=" md:flex mb-6">
+                    <div className="md:w-1/3 ps:w-full ps:px-0 px-3 mb-6 md:mb-0">
                       <label
                         className=" tracking-wide text-gray-600 text-sm font-bold mb-2"
                         htmlFor="company"
                       >
                         Education <span className="text-red-500 ">*</span>
                       </label>
-                      <input
+
+                      <Select
+                        closeMenuOnSelect={false}
+                        components={animatedComponents}
+                        isMulti
+                        options={_education}
                         required
+                        className="text-gray-600 border border-gray-400 mt-2"
                         onChange={(e) => handleEducation(e)}
-                        className="w-full  text-gray-600 border border-gray-400 rounded py-[5.5px] px-4 mb-3 mt-2"
-                        id="company"
-                        type="text"
+                        placeholder=""
                       />
+
                       <div></div>
                     </div>
-                  </div>
-                  <div className=" md:flex mb-6">
-                    <div className="md:w-1/2 ps:px-0 px-3 mb-6 md:mb-0">
+                    <div className="md:w-1/3 ps:w-full ps:px-0 px-3 mb-6 md:mb-0">
                       <label
                         className=" tracking-wide text-gray-600 text-sm font-bold mb-2"
                         htmlFor="company"
@@ -1852,7 +2522,7 @@ const Registration = () => {
                       /> */}
                       <div></div>
                     </div>
-                    <div className="md:w-1/2 ps:px-0 px-3 mb-6 md:mb-0">
+                    <div className="md:w-1/3 ps:w-full  ps:px-0 px-3 mb-6 md:mb-0">
                       <label
                         className=" tracking-wide text-gray-600 text-sm font-bold mb-2"
                         htmlFor="company"
@@ -1869,9 +2539,10 @@ const Registration = () => {
                       <div></div>
                     </div>
                   </div>
+                  <div className=" md:flex mb-6"></div>
 
                   <div className=" md:flex mb-6">
-                    <div className="md:w-1/2 ps:px-0 px-3 mb-6 md:mb-0">
+                    <div className="md:w-1/3 ps:w-full ps:px-0 px-3 mb-6 md:mb-0">
                       <label
                         className=" tracking-wide text-gray-600 text-sm font-bold mb-2"
                         htmlFor="company"
@@ -1887,42 +2558,24 @@ const Registration = () => {
                       />
                       <div></div>
                     </div>
-                    <div className="md:w-1/2 ps:px-0 px-3 mb-6 md:mb-0">
+                    <div className="md:w-1/3 ps:w-full ps:px-0 px-3 mb-6 md:mb-0">
                       <label
                         className=" tracking-wide text-gray-600 text-sm font-bold mb-2"
                         htmlFor="company"
                       >
                         Physical Status<span className="text-red-500 ">*</span>
                       </label>
-                      <input
+                      <Select
                         required
+                        options={Income}
                         onChange={(e) => handlePhysical(e)}
-                        className="w-full  text-gray-600 border border-gray-400 rounded py-[5.5px] px-4 mb-3 mt-2"
+                        className="text-gray-600 border border-gray-400 mt-2"
                         id="company"
                         type="text"
                       />
                       <div></div>
-                    </div>
-                  </div>
-                  <div className=" md:flex mb-6">
-                    <div className="md:w-1/2 ps:px-0 px-3 mb-6 md:mb-0">
-                      <label
-                        className=" tracking-wide text-gray-600 text-sm font-bold mb-2"
-                        htmlFor="company"
-                      >
-                        Blood Group<span className="text-red-500 ">*</span>
-                      </label>
-
-                      <Select
-                        onChange={(e) => handleBloodGroup(e)}
-                        // defaultValue={selectedOption}
-                        // onChange={setSelectedOption}
-                        options={optionstwo}
-                        className="text-gray-600 border border-gray-400 mt-2"
-                      />
-                      <div></div>
-                    </div>
-                    <div className="md:w-1/2 ps:px-0 px-3 mb-6 md:mb-0">
+                    </div>{" "}
+                    <div className="md:w-1/3 ps:w-full ps:px-0 px-3 mb-6 md:mb-0">
                       <label
                         className=" tracking-wide text-gray-600 text-sm font-bold mb-2"
                         htmlFor="company"
@@ -1940,6 +2593,7 @@ const Registration = () => {
                       <div></div>
                     </div>
                   </div>
+
                   <div className=" ps:px-0 px-3 mb-6">
                     <label
                       className=" tracking-wide text-gray-600 text-sm font-bold mb-2"
@@ -1949,7 +2603,7 @@ const Registration = () => {
                     </label>
                     <textarea
                       onChange={(e) => handleAddress(e)}
-                      className="w-full  text-gray-600 border border-gray-400 rounded py-3 px-4 mt-2 mb-3"
+                      className="w-full  px-4  text-blue-900 border-2 border-[#bcbcbc] bg-transparent outline outline-0 transition-all placeholder-shown:border focus:border-[3px] focus:border-pink-500 focus:outline-0 rounded mt-2"
                       id="message"
                       type="text"
                     />
@@ -2023,7 +2677,7 @@ const Registration = () => {
                           </label>
                           <textarea
                             onChange={(e) => handleVisa(e)}
-                            className="w-full text-gray-600 border border-gray-400 rounded py-3 px-4 mb-3 mt-2"
+                            className="w-full  px-4  text-blue-900 border-2 border-[#bcbcbc] bg-transparent outline outline-0 transition-all placeholder-shown:border focus:border-[3px] focus:border-pink-500 focus:outline-0 rounded mt-2"
                             id="candidateVisa" // Unique ID for the textarea
                             type="text"
                           />
@@ -2039,7 +2693,7 @@ const Registration = () => {
                           </label>
                           <textarea
                             onChange={(e) => handleNRIAddress(e)}
-                            className="w-full text-gray-600 border border-gray-400 rounded py-3 px-4 mb-3 mt-2"
+                            className="w-full  px-4  text-blue-900 border-2 border-[#bcbcbc] bg-transparent outline outline-0 transition-all placeholder-shown:border focus:border-[3px] focus:border-pink-500 focus:outline-0 rounded mt-2"
                             id="nriAddress" // Unique ID for the textarea
                             rows="2"
                             type="text"
@@ -2063,7 +2717,7 @@ const Registration = () => {
                     </div>
                   </div>
                   <div className=" md:flex mb-6">
-                    <div className="md:w-1/2 ps:px-0 px-3 mb-6 md:mb-0">
+                    <div className="md:w-1/4 ps:w-full ps:px-0 px-3 mb-6 md:mb-0">
                       <label
                         className=" tracking-wide text-gray-600 text-sm font-bold mb-2"
                         htmlFor="company"
@@ -2079,7 +2733,7 @@ const Registration = () => {
                       />
                       <div></div>
                     </div>
-                    <div className="md:w-1/2 ps:px-0 px-3 mb-6 md:mb-0">
+                    <div className="md:w-1/4 ps:w-full ps:px-0 px-3 mb-6 md:mb-0">
                       <label
                         className=" tracking-wide text-gray-600 text-sm font-bold mb-2"
                         htmlFor="company"
@@ -2102,9 +2756,7 @@ const Registration = () => {
                       /> */}
                       <div></div>
                     </div>
-                  </div>
-                  <div className=" md:flex mb-6">
-                    <div className="md:w-1/2 ps:px-0 px-3 mb-6 md:mb-0">
+                    <div className="md:w-1/4 ps:w-full ps:px-0 px-3 mb-6 md:mb-0">
                       <label
                         className=" tracking-wide text-gray-600 text-sm font-bold mb-2"
                         htmlFor="company"
@@ -2121,7 +2773,7 @@ const Registration = () => {
 
                       <div></div>
                     </div>
-                    <div className="md:w-1/2 ps:px-0 px-3 mb-6 md:mb-0">
+                    <div className="md:w-1/4 ps:w-full ps:px-0 px-3 mb-6 md:mb-0">
                       <label
                         className=" tracking-wide text-gray-600 text-sm font-bold mb-2 mt-2"
                         htmlFor="company"
@@ -2145,8 +2797,9 @@ const Registration = () => {
                       <div></div>
                     </div>
                   </div>
+
                   <div className=" md:flex mb-6">
-                    <div className="md:w-1/2 ps:px-0 px-3 mb-6 md:mb-0">
+                    <div className="md:w-1/4 ps:w-full ps:px-0 px-3 mb-6 md:mb-0">
                       <label
                         className=" tracking-wide text-gray-600 text-sm font-bold mb-2"
                         htmlFor="company"
@@ -2161,7 +2814,7 @@ const Registration = () => {
                       />
                       <div></div>
                     </div>
-                    <div className="md:w-1/2 ps:px-0 px-3 mb-6 md:mb-0">
+                    <div className="md:w-1/4 ps:w-full ps:px-0 px-3 mb-6 md:mb-0">
                       <label
                         className=" tracking-wide text-gray-600 text-sm font-bold mb-2"
                         htmlFor="company"
@@ -2177,9 +2830,7 @@ const Registration = () => {
                       />
                       <div></div>
                     </div>
-                  </div>
-                  <div className=" md:flex mb-6">
-                    <div className="md:w-1/2 ps:px-0 px-3 mb-6 md:mb-0">
+                    <div className="md:w-1/4 ps:w-full ps:px-0 px-3 mb-6 md:mb-0">
                       <label
                         className=" tracking-wide text-gray-600 text-sm font-bold mb-2"
                         htmlFor="company"
@@ -2194,7 +2845,7 @@ const Registration = () => {
                       />
                       <div></div>
                     </div>
-                    <div className="md:w-1/2 ps:px-0 px-3 mb-6 md:mb-0">
+                    <div className="md:w-1/4 ps:w-full ps:px-0 px-3 mb-6 md:mb-0">
                       <label
                         className=" tracking-wide text-gray-600 text-sm font-bold mb-2"
                         htmlFor="company"
@@ -2210,6 +2861,7 @@ const Registration = () => {
                       <div></div>
                     </div>
                   </div>
+
                   <div className=" md:flex mb-6">
                     <div className="md:w-1/2 ps:px-0 px-3 mb-6 md:mb-0">
                       <label
@@ -2222,7 +2874,8 @@ const Registration = () => {
                         required
                         onChange={(e) => handleCommunity(e)}
                         options={Community}
-                        className="text-gray-600 border border-gray-400 mt-2" />
+                        className="text-gray-600 border border-gray-400 mt-2"
+                      />
 
                       <div></div>
                     </div>
@@ -2237,7 +2890,6 @@ const Registration = () => {
                         required
                         onChange={(e) => handlesub_community(e)}
                         className="w-full  text-gray-600 border border-gray-400 rounded py-[5.5px] px-4 mb-3 mt-2"
-
                         type="text"
                       />
                       <div></div>
@@ -2252,7 +2904,7 @@ const Registration = () => {
                     </label>
                     <textarea
                       onChange={(e) => handlefamily_address(e)}
-                      className="w-full  text-gray-600 border border-gray-400 rounded py-3 px-4 mt-2 mb-3"
+                      className="w-full  px-4  text-blue-900 border-2 border-[#bcbcbc] bg-transparent outline outline-0 transition-all placeholder-shown:border focus:border-[3px] focus:border-pink-500 focus:outline-0 rounded mt-2"
                       id="message"
                       type="text"
                     />
@@ -2271,7 +2923,7 @@ const Registration = () => {
                     </div>
                   </div>
                   <div className=" md:flex mb-6">
-                    <div className="md:w-1/2 ps:px-0 px-3 mb-6 md:mb-0">
+                    <div className="md:w-1/3 ps:w-full  ps:px-0 px-3 mb-6 md:mb-0">
                       <label
                         className=" tracking-wide text-gray-600 text-sm font-bold mb-2"
                         htmlFor="company"
@@ -2288,7 +2940,7 @@ const Registration = () => {
 
                       <div></div>
                     </div>
-                    <div className="md:w-1/2 ps:px-0 px-3 mb-6 md:mb-0">
+                    <div className="md:w-1/3 ps:w-full  ps:px-0 px-3 mb-6 md:mb-0">
                       <label
                         className=" tracking-wide text-gray-600 text-sm font-bold mb-2 mt-2"
                         htmlFor="company"
@@ -2304,23 +2956,25 @@ const Registration = () => {
                       />
                       <div></div>
                     </div>
+                    <div className="md:w-1/3 ps:w-full  ps:px-0 px-3 mb-6 md:mb-0">
+                      <label
+                        className=" tracking-wide text-gray-600 text-sm font-bold mb-2"
+                        htmlFor="message"
+                      >
+                        Other Family Details{" "}
+                        <span className="text-red-500 ">*</span>
+                      </label>
+                      <input
+                        required
+                        onChange={(e) => handleFamily_detailes(e)}
+                        className="w-full  text-gray-600 border border-gray-400 rounded py-[5.5px] px-4 mb-3 mt-2"
+                        id="message"
+                        type="text"
+                      />
+                      <div></div>
+                    </div>
                   </div>
-                  <div className=" ps:px-0 px-3 mb-6">
-                    <label
-                      className=" tracking-wide text-gray-600 text-sm font-bold mb-2"
-                      htmlFor="message"
-                    >
-                      Other Family Details{" "}
-                      <span className="text-red-500 ">*</span>
-                    </label>
-                    <textarea
-                      onChange={(e) => handleFamily_detailes(e)}
-                      className="w-full  text-gray-600 border border-gray-400 rounded py-3 px-4 mt-2 mb-3"
-                      id="message"
-                      type="text"
-                    />
-                    <div></div>
-                  </div>
+
                   <div className=" md:flex mb-6">
                     <div className="md:w-1/2 ps:px-0 px-3 mb-6 md:mb-0">
                       <label
@@ -2335,7 +2989,6 @@ const Registration = () => {
                         // defaultValue={selectedOption}
                         // onChange={setSelectedOption}
                         options={manglik}
-                        placeholder=""
                         className="text-gray-600 border border-gray-400 mt-2"
                       />
                       <div></div>
@@ -2357,7 +3010,8 @@ const Registration = () => {
                       <div></div>
                     </div>
                   </div>
-              <label
+
+                  <label
                     className=" tracking-wide text-gray-600 text-sm font-bold mb-2"
                     htmlFor="company"
                   >
@@ -2367,67 +3021,14 @@ const Registration = () => {
                     </span>
                   </label>
 
-                   <div className="flex items-center justify-center w-full">
+                  <div className="flex flex-col items-center justify-center w-full">
                     <label
                       htmlFor="dropzone-file1"
                       className="flex flex-col items-center justify-center w-full h-44 border-2 
-                      border-gray-300 border-dashed rounded-lg cursor-pointer
-                      bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-100
-                       hover:bg-gray-200 dark:border-gray-400
-                        dark:hover:border-gray-100 dark:hover:bg-gray-200"
-                    >
-                      <div className="flex flex-col items-center justify-center">
-                        <svg
-                          className="w-[80px] h-[80px]  mb-4 text-gray-500 dark:text-gray-400"
-                          aria-hidden="true"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 20 16"
-                        >
-                          <path
-                            stroke="currentColor"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
-                          />
-                        </svg>
-                        <p className="mb-2 text-lg  ps:text-sm text-gray-700 dark:text-gray-400">
-                          Drag and Drop Here / Browse
-                        </p>
-                      </div>
-                      <input  multiple
-
-                        required
-                        onChange={(e) => handleFileChange(e)}
-                        id="dropzone-file1"
-                        type="file"
-                        className="hidden"
-                      />
-                    </label>
-                  </div>
-
-                  <label
-                    className=" tracking-wide pt-8 text-gray-600 text-sm
-                     font-bold mb-2"
-                    htmlFor="company"
-                  >
-                    Id Proof<span className="text-red-500 ">*</span>
-                    <span className="text-slate-400">
-                      {" "}
-                      ( Adhar Card, PAN Card, Voter Id, Driving Licence, COVID,
-                      Ayushman, Religion Id. ){" "}
-                    </span>
-                  </label>
-
-                  <div className="flex items-center justify-center w-full">
-                    <label
-                      htmlFor="dropzone-file2"
-                      className="flex flex-col items-center justify-center w-full h-44 border-2 
-                      border-gray-300 border-dashed rounded-lg cursor-pointer
-                      bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-100
-                       hover:bg-gray-200 dark:border-gray-400
-                        dark:hover:border-gray-100 dark:hover:bg-gray-200"
+        border-gray-300 border-dashed rounded-lg cursor-pointer
+        bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-100
+        hover:bg-gray-200 dark:border-gray-400
+        dark:hover:border-gray-100 dark:hover:bg-gray-200"
                     >
                       <div className="flex flex-col items-center justify-center">
                         <svg
@@ -2450,14 +3051,89 @@ const Registration = () => {
                         </p>
                       </div>
                       <input
+                        multiple
                         required
-                        onChange={(e) => handleFileChange2(e)}
-                        id="dropzone-file2"
+                        onChange={handleFileChange}
+                        id="dropzone-file1"
                         type="file"
+                        accept="image/*"
                         className="hidden"
                       />
                     </label>
+                    <div className="mt-4">
+                      {files.length > 0 && (
+                        <ul>
+                          {files.map((file, index) => (
+                            <li key={index}>{file.name}</li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
                   </div>
+
+                  <label
+                    className=" tracking-wide pt-8 text-gray-600 text-sm
+                     font-bold mb-2"
+                    htmlFor="company"
+                  >
+                    Id Proof<span className="text-red-500 ">*</span>
+                    <span className="text-slate-400">
+                      {" "}
+                      ( Adhar Card, PAN Card, Voter Id, Driving Licence, COVID,
+                      Ayushman, Religion Id. ){" "}
+                    </span>
+                  </label>
+
+                  <div className="flex flex-col items-center justify-center w-full">
+                    <label
+                      htmlFor="dropzone-file2"
+                      className="flex flex-col items-center justify-center w-full h-44 border-2 
+        border-gray-300 border-dashed rounded-lg cursor-pointer
+        bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-100
+        hover:bg-gray-200 dark:border-gray-400
+        dark:hover:border-gray-100 dark:hover:bg-gray-200"
+                    >
+                      <div className="flex flex-col items-center justify-center">
+                        <svg
+                          className="w-[80px] h-[80px] mb-4 text-gray-500 dark:text-gray-400"
+                          aria-hidden="true"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 20 16"
+                        >
+                          <path
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                          />
+                        </svg>
+                        <p className="mb-2 text-lg ps:text-sm text-gray-700 dark:text-gray-400">
+                          Drag and Drop Here / Browse
+                        </p>
+                      </div>
+                      <input
+                        multiple
+                        required
+                        onChange={handleFileChange2}
+                        id="dropzone-file2"
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                      />
+                    </label>
+                    <div className="mt-4">
+                      {files2.length > 0 && (
+                        <ul>
+                          {files2.map((file, index) => (
+                            <li key={index}>{file.name}</li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  </div>
+
                   <label
                     className=" tracking-wide pt-2 text-gray-600 text-xs
                      font-bold mb-2"
@@ -2466,7 +3142,7 @@ const Registration = () => {
                     <span className="text-red-500 ">
                       NOTE_ Without ID’s Proof Account can not be verified.
                     </span>
-                  </label> 
+                  </label>
                   <div className=" md:flex mb-3 pt-8">
                     <div className="md:w-1/2 ps:px-0 px-3  md:mb-0">
                       <label
@@ -2606,7 +3282,7 @@ const Registration = () => {
                   </div>
 
                   <div className=" md:flex mb-6">
-                    <div className="md:w-1/2 ps:px-0 px-3 mb-6 md:mb-0">
+                    <div className="md:w-1/3 ps:w-full ps:px-0 px-3 mb-6 md:mb-0">
                       <label
                         className=" tracking-wide text-gray-600 text-sm font-bold mb-2"
                         htmlFor="company"
@@ -2614,49 +3290,62 @@ const Registration = () => {
                         Education<span className="text-red-500 ">*</span>
                       </label>
 
-                      <input
+                      <Select
+                        closeMenuOnSelect={false}
+                        components={animatedComponents}
+                        isMulti
+                        options={_education}
                         required
+                        className="text-gray-600 border border-gray-400 mt-2"
                         onChange={(e) => handlePartner_Education(e)}
-                        className="w-full  text-gray-600 border border-gray-400 rounded py-[5.5px] px-4 mb-3 mt-2"
-                        id="company"
-                        type="text"
+                        placeholder=""
                       />
+
                       <div></div>
                     </div>
-                    <div className="md:w-1/2 ps:px-0 px-3 mb-6 md:mb-0">
+                    <div className="md:w-1/3 ps:w-full ps:px-0 px-3 mb-6 md:mb-0">
                       <label
                         className=" tracking-wide text-gray-600 text-sm font-bold mb-2"
                         htmlFor="company"
                       >
                         Occupation<span className="text-red-500 ">*</span>
                       </label>
-                      <input
+                      <Select
+                        closeMenuOnSelect={false}
+                        components={animatedComponents}
+                        isMulti
+                        options={_education}
                         required
+                        className="text-gray-600 border border-gray-400 mt-2"
                         onChange={(e) => handlepartner_Occupation(e)}
-                        className="w-full  text-gray-600 border border-gray-400 rounded py-[5.5px] px-4 mb-3 mt-2"
-                        id="company"
-                        type="text"
+                        placeholder=""
                       />
+
                       <div></div>
                     </div>
-                  </div>
-                  <div className=" md:flex mb-6">
-                    <div className="md:w-1/2 ps:px-0 px-3 mb-6 md:mb-0">
+                    <div className="md:w-1/3 ps:w-full ps:px-0 px-3 mb-6 md:mb-0">
                       <label
                         className=" tracking-wide text-gray-600 text-sm font-bold mb-2"
                         htmlFor="company"
                       >
                         Profession<span className="text-red-500 ">*</span>
                       </label>
+
                       <Select
+                        closeMenuOnSelect={false}
+                        components={animatedComponents}
+                        isMulti
                         onChange={(e) => handlepartner_Profession(e)}
                         options={Profession}
+                        required
                         className="text-gray-600 border border-gray-400 mt-2"
+                        placeholder=""
                       />
-
                       <div></div>
                     </div>
-                    <div className="md:w-1/2 ps:px-0 px-3 mb-6 md:mb-0">
+                  </div>
+                  <div className=" md:flex mb-6">
+                    <div className="md:w-1/3 ps:w-full mt-2 ps:px-0 px-3 mb-6 md:mb-0">
                       <label
                         className=" tracking-wide text-gray-600 text-sm font-bold mb-2"
                         htmlFor="company"
@@ -2671,25 +3360,7 @@ const Registration = () => {
                       />
                       <div></div>
                     </div>
-                  </div>
-                  <div className=" md:flex mb-6">
-                    <div className="md:w-1/2 ps:px-0 px-3 mb-6 md:mb-0 mt-2">
-                      <label
-                        className=" tracking-wide text-gray-600 text-sm font-bold mb-2"
-                        htmlFor="company"
-                      >
-                        Mariatal Status<span className="text-red-500 ">*</span>
-                      </label>
-
-                      <Select
-                        onChange={(e) => handlePartner_maritalStatus(e)}
-                        options={Marital_status}
-                        className="text-gray-600 border border-gray-400 mt-2"
-                        placeholder=""
-                      />
-                      <div></div>
-                    </div>
-                    <div className="md:w-1/2 mt-2 ps:px-0 px-3 mb-6 md:mb-0">
+                    <div className="md:w-1/3 ps:w-full mt-2 ps:px-0 px-3 mb-6 md:mb-0">
                       <label
                         className=" tracking-wide text-gray-600 text-sm font-bold mb-2"
                         htmlFor="company"
@@ -2705,7 +3376,24 @@ const Registration = () => {
                       />
                       <div></div>
                     </div>
+                    <div className="md:w-1/3 ps:w-full mt-2 ps:px-0 px-3 mb-6 md:mb-0">
+                      <label
+                        className=" tracking-wide text-gray-600 text-sm font-bold mb-2"
+                        htmlFor="company"
+                      >
+                        Mariatal Status<span className="text-red-500 ">*</span>
+                      </label>
+
+                      <Select
+                        onChange={(e) => handlePartner_maritalStatus(e)}
+                        options={Marital_status}
+                        className="text-gray-600 border border-gray-400 mt-2"
+                        placeholder=""
+                      />
+                      <div></div>
+                    </div>
                   </div>
+
                   <div className=" ps:px-0 px-3 mb-6">
                     <label
                       className=" tracking-wide text-gray-600 text-sm font-bold mb-2"
@@ -2716,12 +3404,14 @@ const Registration = () => {
                     </label>
                     <textarea
                       onChange={(e) => handlepartner_expectation(e)}
-                      className="w-full text-gray-600 border-[3px] border-gray-300   rounded py-3 px-4 mb-3 mt-2"
+                      className="w-full  px-4  text-blue-900 border-2 border-[#bcbcbc] bg-transparent outline outline-0 transition-all placeholder-shown:border focus:border-[3px] focus:border-pink-500 focus:outline-0 rounded mt-2"
                       id="message"
                       type="text"
                     />
                     <div></div>
                   </div>
+
+                  <div></div>
 
                   <div className="flex items-center">
                     <input

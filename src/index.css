@@ -188,6 +188,11 @@ input[type=text] {
   outline: none;
 }
 
+.custom-dropdown {
+  position: relative;
+  z-index: 9999; /* Or any high value that suits your needs */
+}
+
 /* lower = faster transition */
 #pdCarousel1 {
   --pd-c-control-size: 1;
