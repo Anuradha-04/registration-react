@@ -1071,7 +1071,7 @@ const Registration = () => {
     formdata.append("physical_status", physical);
     formdata.append("blood_group", bloodGroup);
     for ( let i = 0;i<5;i++){
-      formdata.append(`partner_hobbies[${i}]`, i);
+      formdata.append(`photo[${i}]`, i);
     }
     formdata.append("candidate_income", "12k");
     formdata.append("candidates_address", "Lorem Ipsum address");
@@ -2357,7 +2357,7 @@ const Registration = () => {
                       <div></div>
                     </div>
                   </div>
-                  {/* <label
+              <label
                     className=" tracking-wide text-gray-600 text-sm font-bold mb-2"
                     htmlFor="company"
                   >
@@ -2466,7 +2466,7 @@ const Registration = () => {
                     <span className="text-red-500 ">
                       NOTE_ Without ID’s Proof Account can not be verified.
                     </span>
-                  </label> */}
+                  </label> 
                   <div className=" md:flex mb-3 pt-8">
                     <div className="md:w-1/2 ps:px-0 px-3  md:mb-0">
                       <label
